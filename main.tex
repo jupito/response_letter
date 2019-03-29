@@ -1,0 +1,518 @@
+\documentclass{letter}
+
+\usepackage[utf8]{inputenc}
+
+%\newcommand{\sect}[1]{{\textbf{\large #1}}}  % Section.
+
+\DeclareUnicodeCharacter{00B2}{\textsuperscript{2}}
+\DeclareUnicodeCharacter{2096}{\textsubscript{k}}
+\DeclareUnicodeCharacter{2098}{\textsubscript{m}}
+\DeclareUnicodeCharacter{2081}{\textsubscript{1}}
+\DeclareUnicodeCharacter{2082}{\textsubscript{2}}
+
+\newenvironment{comment}[1]%
+  {\vspace{5ex}\par\textsf{#1 ---} \ignorespaces}%
+  {\par\ignorespacesafterend}
+\newenvironment{reply}%
+  {\vspace{2ex}\par\bfseries}%
+  {\par\upshape}
+
+\providecommand{\citep}[1]{[#1]}
+\providecommand{\citet}[1]{[#1]}
+
+\title{Manuscript MRM--17--17981, authors' response to comments}
+\date{\today}
+\address{Jussi Toivonen \\ jupito@iki.fi}
+
+\begin{document}
+\begin{letter}{Magnetic Resonance in Medicine \\ mrm@ismrm.org}
+\opening{Dear Editors and Reviewers,}
+
+We thank the reviewers and editors for your insightful comments. We are
+resubmitting a new revision of our manuscript with modifications based on your
+feedback.
+
+
+In the following, we respond point-by-point to the reviewers' comments.
+
+
+%\sect{Deputy Editor}
+
+\begin{comment}{Deputy Editor}
+Despite positive comments, the reviewers scores are below what we would normally
+expect to accept a manuscript for publication in MRM\@. The reviewers raise a
+number of issues for the authors to address in order to raise those scores to
+levels of acceptability. To my mind, the key issue to address is a clear
+description of the feature selection. The authors need to make clear that the
+process of using the same metric during feature selection as the final
+evaluation does not bias the results to spuriously high classification rates ---
+or if it does produce that bias, then rethink the feature selection. Both
+reviewers also say that the presentation needs to improve. I also agree with
+reviewer 2 that evaluation on an independent data set would substantially
+strengthen the manuscript. We would welcome a resubmission if the authors can
+address these issues satisfactorily.
+\end{comment}
+
+\begin{reply}
+We are grateful for a very thorough evaluation of our manuscript. We have
+carefully revised our manuscript. To specifically address the issues of feature
+selection and cross validation we have added a new subsection 2.6:
+
+It is important to note that this nested cross-validation scheme allows us to
+select features and tune the hyperparameter while avoiding bias
+\citep{Varma2006}. In each round of LPOCV, the pair of data points left for
+testing does not affect the feature selection nor the hyperparameter tuning of
+the predictive model in turn.
+\end{reply}
+
+
+
+%\sect{Referee 1}
+
+\begin{comment}{R1.C1}
+The paper proposes an automatic method for classifying low and high Gleason
+score with texture features from in vivo MRI (DWI, T₂w and T₂ mapping).
+
+The classification system uses different texture features from ADC, kurtosis,
+T₂w and T₂ mapping images with regularized logistic regression. To differentiate
+between low and high Gleason scores they used a leave pair out cross validation
+method.
+
+Points:
+
+In general this type of study is of interest to MRM readers, and the potential
+release and sharing of the MRI and histological dataset could be of significant
+value. However the paper is poorly written and there is not much in terms of
+methodological value, so it is really hard to assess novelty. There are several
+aspects that could be improved and take advantage of this imaging database.
+\end{comment}
+
+\begin{reply}
+We thank the reviewer for the comments. We have very carefully revised our
+manuscript.
+
+Our manuscript is novel in multiple aspects:
+
+1. To the best of our knowledge, this is the first study which evaluated a very
+large number of ways how to calculate textures and look into effect of texture
+parameters on performance of texture. We do agree it is controversial since we
+used ``brutal force computation power'' rather than picking few parameters and
+hoping those perform well. With all due respect, we disagree that there is high
+quality a~priori knowledge to decide what texture feature parameters to use. As
+we have shown in this manuscript, for a particular feature the optimal
+parameters depend on lot of MRI parameters (noise level, recon.\ method, …).
+
+2. To the best of our knowledge, this is the first study which evaluated use of
+T₂w, T₂ relaxation values and DWI textures for Gleason score prediction. Please
+note, Gleason score is the most commonly used histological marker of prostate
+cancer aggressiveness so development of methods for Gleason score prediction is
+of utmost importance.
+
+3. To the best of our knowledge, this is the first study which evaluated texture
+derived from the Kurtosis function of DWI acquired using b values up to 2000
+s/mm². For the first time we were able to demonstrate that texture features from
+the Kurtosis function parameteric maps add value to the Monoexponential function
+parameteric maps. We have a long track record in doing prostate DWI modeling (eg
+Magn Reson Med 2017 Mar;77(3):1249--1264.; Magn Reson Med 2016
+May;75(5):2130--40.; Magn Reson Med 2016 Jan;75(1):337--44.; Magn Reson Med
+2015 Oct;74(4):1116--24.; Magn Reson Med 2015 May;73(5):1988--98.; Magn Reson
+Med 2015 May;73(5):1954--69.) but we truly believe this manuscript is breaking
+new ground by focusing on texture features of parameteric maps rather than first
+order statistics of parameteric maps as used in the past.
+\end{reply}
+
+
+\begin{comment}{R1.C2}
+Introduction:
+
+The demographics at the introduction need updating! “For example in USA, 180~890
+new cases of PCa are estimated to be diagnosed in 2016…”
+\end{comment}
+
+\begin{reply}
+We thank you for pointing out this error. The reference was updated for 2017.
+\end{reply}
+
+
+\begin{comment}{R1.C3}
+The MRI paragraph only discusses ADC, while surely here they need to also
+mention kurtosis as it is one of the methods they use for DWI analysis. Also T₂
+mapping could also be briefly described here.
+\end{comment}
+
+\begin{reply}
+We do agree with the review that brief introduction for DWI modeling was
+missing. We have added the follow text:
+
+Various different fitting methods have been applied for modeling DWI signal
+decay. The biexponential function \citep{Mulkern2006} provides the best fitting
+quality for DWI data sets acquired using ``high'' b values ($\sim$2000 s/mm²)
+\citep{Jambor2015Evaluation}. The biexponential function is not robust against
+noise and has low repeatability. In contrast, kurtosis function
+\citep{Jensen2005} provides similar fitting quality while being substantially
+more robust against noise \citep{Jambor2015Evaluation}. However, texture
+features of parametric maps derived from the kurtosis function have not been
+evaluated and hold promise by better signal characterization compared with the
+most commonly used monoexponential function \citep{Toivonen2015}. Other MRI
+methods, such as T₂-mapping (T₂) and anatomical T₂-weighted imaging (T₂w), could
+provide complimentary information to DWI for prediction of PCa characteristics
+\citep{Jambor2015Relaxation}.
+\end{reply}
+
+
+\begin{comment}{R1.C4}
+Even though there are only few other methods that utilize machine learning for
+the same task, they are hardly discussed in the introduction (or the
+discussion). In particular this work is very close and relevant to the study by
+Fehr et al PNAS 2015, yet it is hardly discussed or compared.
+\end{comment}
+
+\begin{reply}
+We have added comparison to previously published studies in the Discussion:
+
+Texture analysis of multiparametric MRI has previously seen limited use in PCa
+characterization. \citet{Fehr2015} evaluated PCa characterization with the
+whole-lesion 1st order statistics and GLCM texture features from a similar-size
+dataset of ADC and T₂w. They used oversampling to ward off effect of class
+imbalance. Similarly to our study, they integrated dynamic feature selection as
+part of the training (using the recursive feature selection support vector
+machine, RFE-SVM). In our study, we included a much more diverse and numerous
+set of features, as one of our goals was to evaluate various texture extraction
+methods. Moreover, we have for the first time demonstrated that using texture
+features from K (kurtosis function) provided improvements to ADCₘ
+(monoexponential function). This is important since first order statistics of
+parameters derived from kurtosis function do not lead to improved performance of
+ADCm (monoexponential function). The effect of noise remains to be explored in
+future studies.
+
+\citet{Tiwari2013} classified PCa using GLCM and simple gradient features from
+T₂w and MR spectroscopy (MRS). They used a multi-kernel classifier with graph
+embedding to reduce dimensionality. They had fewer patients compared to the
+current study. However, the classification was done on equally-sized,
+rectangular metavoxels.
+
+Furthermore, \citet{Wibmer2015} studied the associations of Gleason scores and
+individual GLCM features from ADC and T₂w of PZ lesions, using generalized
+linear regression and generalized estimating equations; and \citet{Vignati2015}
+tested Gleason score differentiation using two of the GLCM features (contrast
+and homogeneity) from T₂w and ADC individually.
+\end{reply}
+
+
+\begin{comment}{R1.C5}
+Methods
+
+Lack of MRI and histological registration. In discussion the authors present the
+lack of MRI to histology registration as an advantage. The value of such
+registration is well known and in particular its value for prostate imaging has
+been recently highlighted in Bourne et al Frontiers in Oncology 2017. This
+should be acknowledged at least as a limitation of the study.
+\end{comment}
+
+\begin{reply}
+We have added the following remark to Discussion:
+
+However, the accuracy of the delineations in this study could be potentially
+improved by an added step of co-registering MRI to histology images
+\citep{Bourne2017}.
+
+We highlight the limitation of performing re-slicing and non-rigid deformation
+of MR data sets to common space and then co-registering with whole mount
+prostatectomy sections. As correctly noted by \citet{Bourne2017},
+co-registration of whole mount prostatectomy sections to MRI data sets is
+important. However, the effect of re-slicing and non-rigid deformation of MR
+data sets to common space remains to be explored.
+\end{reply}
+
+
+\begin{comment}{R1.C6}
+Final dataset: For the classifier the low Gleason score group had only 20
+lesions while the high Gleason score group had 80. What is the effect of the
+uneven number of lesions in the low and high GS groups?
+\end{comment}
+
+\begin{reply}
+We have added separate subsection addressing this issue:
+
+Addressing bias and imbalance
+
+It is important to note that the nested cross-validation scheme allows feature
+selection and hyperparameter tuning while avoiding bias in the performance
+estimate \citep{Varma2006}. In each round of LPOCV, the pair of data points left
+for testing does not affect the feature selection nor the hyperparameter tuning
+of the predictive model in turn.
+
+The ratio between low and high Gleason score is 1:4 in the data set, so there is
+some degree of imbalance between classes. However, the model performance was
+estimated using LPOCV together with AUC, and that degree of imbalance in the
+classes have low effect on these methods \citep{Airola2011, Smith2014}. LPOCV is
+an unbiased estimate of the prediction performance of a model
+\citep{Airola2011}, and the ROC AUC is not affected by imbalance as it measures
+how accurately a model ranks a random positive unit from a negative one
+\citep{Fawcett2006}.
+\end{reply}
+
+%\emph{Maybe also add something about how regularization used when fitting the
+%model helps against over fitting the data, therefore, no class or values are
+%favored.}
+
+
+\begin{comment}{R1.C7}
+The texture features section needs to be written in a more compelling way,
+giving information like why such a feature is good to be explored and suitable
+for this task. Currently it is written like a list.
+
+Also the statistical features should be mentioned here too.
+\end{comment}
+
+\begin{reply}
+We have carefully revised the Methods section and provided futher details. We do
+admit that part of this subsection still resembles a list. However, the content
+is naturally somewhat list-like, as it lists the texture methods that were used,
+and how they were used.
+
+Alternatively, we could provide this information in the Supplementary materials,
+if requested.
+\end{reply}
+
+
+\begin{comment}{R1.C8}
+Classification and experimental setup:
+
+The authors use logistic regression with L1 and L2 but no other information is
+given. Please provide information/citation about the regression used.
+\end{comment}
+
+\begin{reply}
+We have provided futher details, and cited \citet{Friedman2010} for L1 and L2
+regularization.
+\end{reply}
+
+%We can cite this paper \citet{Friedman2010} for L1 (the Lasso) and L2 (ridge
+%regression) which are the penalties used in Scikit-learn library for
+%Regularized Logistic Regression.
+
+
+\begin{comment}{R1.C9}
+“L1 regularization has the additional property of shrinking the coefficients of
+the least useful features down to zero” or has the additional property of
+sparsity.
+
+“However, while strong L1 regularization selects only … classical filtering
+based feature selection approach would improve the prediction performance.”
+Citations are needed for these statements.
+\end{comment}
+
+%We can cite \citet{Park2007} to explain how L1 penalty performance feature
+%selection and how the amount of regularization affects the number of
+%coefficients ending down to zero.
+
+\begin{reply}
+We carefully evaluted this issue and cited \citet{Park2007} for the feature
+selection mechanism. We truly believe we have carefully explained all the
+details and all the issues were clarified.
+\end{reply}
+
+
+\begin{comment}{R1.C10}
+AUC undefined when used first time.
+\end{comment}
+
+\begin{reply}
+This error was corrected.
+\end{reply}
+
+
+\begin{comment}{R1.C11}
+“and the optimum regularization parameter value was selected from the set”.
+This should be hyper-parameter, as this is a parameter you tune and not train.
+\end{comment}
+
+\begin{reply}
+This error was corrected here and elsewhere in text.
+\end{reply}
+
+
+\begin{comment}{R1.C12}
+ROC also needs to be defined.
+\end{comment}
+
+\begin{reply}
+This error was corrected.
+\end{reply}
+
+
+\begin{comment}{R1.C13}
+The pseudocode appearance is poor and difficult to read in print and on screen.
+\end{comment}
+
+\begin{reply}
+Pseudocode has been rewritten in better quality.
+\end{reply}
+
+
+\begin{comment}{R1.C14}
+An interesting comparison missing is the use of raw DWI data, as it is used for
+multiparametric MRI reading for example using the images b=0 and b=2000.
+\end{comment}
+
+\begin{reply}
+Raw DWI signal of b=0 or any other b value is relative to MR signal gain,
+post-processing method, k-space filtering and many other parameters. It does not
+have absolute meaning.
+\end{reply}
+
+
+\begin{comment}{R1.C15}
+Discussion:
+
+“In this study, the gray-level co-occurrence matrix, … implementation details
+vary.” This paragraph seems to belong more in the methods rather than the
+discussion. Also it needs citations.
+\end{comment}
+
+\begin{reply}
+This part of the text has been moved to the Methods section.
+\end{reply}
+
+
+\begin{comment}{R1.C16}
+The discussion in general needs restructuring and rewriting. Every paragraph
+needs to motivate itself and explain why they used these methods, how their
+results compare with previous findings and more importantly try and highlight
+the novelty and importance of this work.
+\end{comment}
+
+\begin{reply}
+We have carefully rewritten and restructured the Discussion.
+\end{reply}
+
+
+%\begin{comment}{R1.C17}
+%Results:
+%
+%It would be nice if some of the tables could be summarized and even presented as
+%curves for a more immediate demonstration of the results.
+%\end{comment}
+
+
+
+%\sect{Referee 2}
+
+\begin{comment}{R2.C1}
+Radiomics-based classification of prostate cancer Gleason scores is a fairly
+well researched topic. The authors main contribution is the exploration of
+several different imaging features extracted from different sequences. While
+this is interesting, there are quite a few issues that need to be addressed.
+
+1. The data set is heavily imbalanced. Nested cross-validation alone would not
+be able to handle this. Event stratified nested cross-validation with such high
+data imbalance would result in a heavily biased classifier that will tend to
+preferentially classify data as the majority class. Was any data augmentation or
+data balancing performed? That needs to be spelled out clearly.
+\end{comment}
+
+\begin{reply}
+As we have stated in the comments above, we have added new subsection addressing
+this issue:
+
+Addressing bias and imbalance
+
+It is important to note that the nested cross-validation scheme allows feature
+selection and hyperparameter tuning while avoiding bias in the performance
+estimate \citep{Varma2006}. In each round of LPOCV, the pair of data points left
+for testing does not affect the feature selection nor the hyperparameter tuning
+of the predictive model in turn.
+
+The ratio between low and high Gleason score is 1:4 in the data set, so there is
+some degree of imbalance between classes. However, the model performance was
+estimated using LPOCV together with AUC, and that degree of imbalance in the
+classes have low effect on these methods \citep{Airola2011, Smith2014}. LPOCV is
+an unbiased estimate of the prediction performance of a model
+\citep{Airola2011}, and the ROC AUC is not affected by imbalance as it measures
+how accurately a model ranks a random positive unit from a negative one
+\citep{Fawcett2006}.
+\end{reply}
+
+
+\begin{comment}{R2.C2}
+2. Feature selection. It sounds like the approach used LASSO-type regression to
+perform first round of feature selection and then the classifier AUC to simply
+select the set of features that yielded the best AUC as the features. Is this
+correct? Please clarify and explain this clearly. Given such a large number of
+features and such a small number of cases, feature selection is critical. This
+needs to be explained really well.
+
+The main issue still is using classifier AUC to select features. Typically you
+should perform feature selection, and use AUC as the end result to report the
+method performance. You cannot use AUC to go back and do feature selection. Then
+you need a different performance measure to show how well the classifier
+actually did or evaluate it on a different dataset. For example, look at papers
+by Aerts' group that use concordance index for instance through sequential
+down-selection, and then use those features for true validation. Perhaps this is
+a misunderstanding and the authors can clarify their feature selection approach
+better. Still given that there are datasets like the PROSTATE-2X from grand
+challenge currently available, perhaps it might help to test the model learned
+through the data and use the PROSTATE-2X for validation?
+\end{comment}
+
+\begin{reply}
+We are not using classifier AUC to select the features. When estimating the
+classifiers performance with nested cross-validation, we are using AUC filtering
+(individual feature AUC) on the training set to select the best features (1\% of
+features with highest AUC); Then with the selected features we tune the
+hyperparameter using a 10-fold cross-validation. The model that results from
+best features and best hyperparameter is used to predict on the test data. The
+Pseudo code describes the whole process of feature and hyperparameter selection
+with the training data and the building of model to predict on the test data in
+turn (pair of data points left out as test not used in feature or hyperparameter
+selection).
+\end{reply}
+
+
+\begin{comment}{R2.C3}
+3. Discussion can be improved quite a bit. Instead of focusing on what
+additional features the paper used, its more useful to provide intuitive
+explanation of why certain features were more useful than the others. For
+instance, why is Gabor more useful than others. Are there other papers that have
+found Gabor to be useful for similar classification of disease aggressiveness.
+Ex. (work by Lakhman et.al on GUGYN cancers). How are the features extracted in
+this approach different from what has been reported for prostate cancer Gleason
+score classification by previous approaches etc? Otherwise, its not clear what
+new information does this paper add compared to previous approaches.
+\end{comment}
+
+\begin{reply}
+We have carefully reviewed and improved the Discussion section.
+\end{reply}
+
+
+
+%\sect{References}
+%
+%1. Varma S, Simon R, ``Bias in error estimation when using cross-validation for
+%model selection.'' BMC Bioinformatics. 7, 91 (2006).
+%
+%2. Airola A, Pahikkala T, Waegeman W, De Baets B, Salakoski T, ``An
+%experimental comparison of cross-validation techniques for estimating the area
+%under the ROC curve.'' Computational Statistics \& Data Analysis. 55, 1828--1844
+%(2011).
+%
+%3. Smith, Gordon CS, et al. ``Correcting for optimistic prediction in small
+%data sets.'' American journal of epidemiology 180.3 (2014): 318--324.
+%
+%4. Fawcett, Tom. ``An introduction to ROC analysis.'' Pattern recognition
+%letters 27.8 (2006): 861--874.
+%
+%5. Friedman J, Hastie T, Tibshirani R. ``Regularization paths for generalized
+%linear models via coordinate descent.'' Journal of statistical software.
+%2010;33(1):1.
+%
+%6. Park MY, Hastie T. ``L1‐regularization path algorithm for generalized linear
+%models.'' Journal of the Royal Statistical Society: Series B (Statistical
+%Methodology). 2007 Sep 1;69(4):659--77.
+
+
+
+\end{letter}
+\end{document}
