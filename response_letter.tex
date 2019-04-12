@@ -17,7 +17,7 @@
 \DeclareUnicodeCharacter{2A09}{$\times$}
 
 \newenvironment{comment}[1]%
-  {\vspace{5ex}\par\textsf{#1 ---}\ignorespaces\bfseries}%
+  {\vspace{5ex}\par\textbf{#1:}\ignorespaces\bfseries}%
   {\par\ignorespacesafterend}
 \newenvironment{reply}%
   {\vspace{2ex}\par}%
@@ -38,13 +38,14 @@ email: jupito@iki.fi}
 \opening{Dear Editors and Reviewers,}
 
 On behalf of my research team, I write in reference to your decision letter
-regarding manuscript PONE-D-18-36207. It was rejected with a possibility of
-resubmission. We would like to resubmit a revised manuscript. Please find
-enclosed our manuscript \emph{Radiomics and machine learning of multisequence
-multiparametric prostate MRI:\ towards improved non-invasive prostate cancer
-characterization} by Jussi Toivonen, Ileana Montoya~Perez, Parisa Movahedi,
-Harri Merisaari, Marko Pesola, Pekka Taimen, Peter J. Boström, Jonne
-Pohjankukka, Aida Kiviniemi, Tapio Pahikkala, Hannu J. Aronen, and Ivan Jambor.
+regarding manuscript PONE-D-18-36207. Your reviewers' decision was that a
+revised version is required. We would like to send you a revised manuscript.
+Please find enclosed our manuscript \emph{Radiomics and machine learning of
+multisequence multiparametric prostate MRI:\ towards improved non-invasive
+prostate cancer characterization} by Jussi Toivonen, Ileana Montoya~Perez,
+Parisa Movahedi, Harri Merisaari, Marko Pesola, Pekka Taimen, Peter J. Boström,
+Jonne Pohjankukka, Aida Kiviniemi, Tapio Pahikkala, Hannu J. Aronen, and Ivan
+Jambor.
 
 We thank the reviewers for their due critisism. We have addressed the weaknesses
 in our work that was presented. In the following, we respond point-by-point to
@@ -107,9 +108,10 @@ on the different sequences?
 \end{comment}
 
 \begin{reply}
-We have now listed the abbreviations in Figure 2. The lesions look a bit
-different in the histology and the sequences, because the different data sets
-did not include slices from exactly same locations.
+We have now listed the abbreviations in Figure 2. The images of different
+modalities were scanned at different resolutions and different times, so there
+cannot be expected to be any slices covering exactly same cross-sections.
+Therefore the lesions in the different slice images appear slightly different.
 \end{reply}
 
 
@@ -120,35 +122,42 @@ explain why you did use 3D volume images.
 
 \begin{reply}
 We extracted texture features from 2D slices, because the images were highly
-anisotropic (about 5⨉1⨉1 mm³). This is mentioned in Section~2.5, line~185.
+anisotropic (about 5⨉1⨉1 mm³). This is mentioned in section~2.5, line~185.
 Various slices from 3D images were used in order to make use of more data.
 \end{reply}
 
 
-\begin{comment}{R1C2}
+\begin{comment}{R2C2}
 Shape-based features were not used. Do you think that shape-based features are
 not relevant to Gleason scores. Please mention this in the paper.
 \end{comment}
 
 \begin{reply}
-Including shape-based features might be useful for Gleason score
-characterization. However, it would require a considerable amount of additional
-work. In this manuscript we decided to focus on texture features.
+We have now added the following paragraph to the Discussion section:
 
-\TODO{Mention how shape features have been used in existing literature.}
+``In addition to texture features, shape descriptors might provide information
+useful for Gleason score characterization \citep{Hoeks2011}. However, we decided
+to leave them out of this study, focusing on texture features only. Including
+shape features would have required considerable amount of additional work, and
+would make it more important to treat lesions of different prostate regions
+differently.''
+
 \end{reply}
 
 
-\begin{comment}{R1C3}
+\begin{comment}{R2C3}
 Is there any correlation in imaging features between different image types?
 \end{comment}
 
 \begin{reply}
-\TODO{Test feature correlation between image types?}
+We have now added the following paragraph to section 3.1:
+
+``Many of the top features had high Spearman rank correlation between different
+image types, but that did not lead to similar AUC performance.''
 \end{reply}
 
 
-\begin{comment}{R1C4}
+\begin{comment}{R2C4}
 Table 5 shows the improved performance when imaging features from different
 image types were combined. The models including all features are not practical
 in terms of interpretation and model building. What are the results if 18
@@ -156,8 +165,8 @@ statistical features and top 1\% features were combined.
 \end{comment}
 
 \begin{reply}
-\TODO{Estimate classification performance with a combination of statistical and
-top 1\% texture features.}
+The top 1\% were selected from all features, including statistical ones. We have
+now clarified this in section~2.6.
 \end{reply}
 
 
