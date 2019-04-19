@@ -27,7 +27,7 @@
 \providecommand{\citet}[1]{[#1]}
 
 \title{Manuscript MRM--17--17981, authors' response to comments}
-\date{March 21, 2019}
+\date{April 17, 2019}
 \address{Jussi Toivonen, MSc\\
 Department of Future Technologies\\
 University of Turku\\
@@ -37,39 +37,43 @@ email: jupito@iki.fi}
 \begin{letter}{Kathryn L. Penney, Academic Editor \\ PLOS ONE}
 \opening{Dear Editors and Reviewers,}
 
-On behalf of my research team, I write in reference to your decision letter
-regarding manuscript PONE-D-18-36207. Your reviewers' decision was that a
-revised version is required. We would like to send you a revised manuscript.
-Please find enclosed our manuscript \emph{Radiomics and machine learning of
-multisequence multiparametric prostate MRI:\ towards improved non-invasive
-prostate cancer characterization} by Jussi Toivonen, Ileana Montoya~Perez,
-Parisa Movahedi, Harri Merisaari, Marko Pesola, Pekka Taimen, Peter J. Boström,
-Jonne Pohjankukka, Aida Kiviniemi, Tapio Pahikkala, Hannu J. Aronen, and Ivan
-Jambor.
-
-We thank the reviewers for their due critisism. We have addressed the weaknesses
-in our work that was presented. In the following, we respond point-by-point to
-the reviewers' comments.
+We thank the editorial team and reviewers for the thorough and valuable review of our manuscript. We feel that the comments are valuable and have improved the paper. We have highlighted all changes in the manuscript and provide point-by-point reply to all the comments. 
 
 
 \begin{comment}{Reviewer 1, Comment 1}
 The paper is well written, and the approach is detailed sufficiently. As a
 general comment on the recent surge of published radiomics papers, while each
 paper identifies significant radiomics features, no effort has been made to
-connect any of these features with previously published ones. This manuscript is
-no exception. More than 1000 features are extracted from four types of images.
-There are long lists of variables for each of the four image types; it is not
-clear what will be the impact of these findings for future applications. In
-addition, the data are acquired in a single institution with the same magnet and
-imaging sequences. Again, it is not clear how applicable the identified features
-will be in other circumstances. The models are not validated in an independent
-dataset.
+connect any of these features with previously published ones. This manuscript is no exception. More than 1000 features are extracted from four types of images. There are long lists of variables for each of the four image types; it is not clear what will be the impact of these findings for future applications. In addition, the data are acquired in a single institution with the same magnet and imaging sequences. Again, it is not clear how applicable the identified features will be in other circumstances. The models are not validated in an independent dataset.
 \end{comment}
 
 \begin{reply}
-It is true that only one data set was used. This is mentioned as drawback in the
-Discussion section, line~533. We are planning to analyze the repeatability of
-texture features in another study, when we have more data available.
+We fully agree with the reviewer that external reproducibility of research is needed between different research groups. Since articles on radiomics rarely provide access to the source code of their implementation, we found it hard to make direct comparison. However, we have cited and used some of the most popular texture features (Gabor Haralick, Local Binary Pattern, Haar, Zernike, Hu, and basic statistics), which we believe are implemented in such a manner that the given results can be connected to existing literature for what comes to use of those features.
+
+Following acceptance we will provide access to source code at the our group's web page:
+http://mrc.utu.fi/ as well as github: https://github.com/jupito/dwilib.
+
+Moreover, we agree with the reviewer that external validation of radiomics and texture descriptors combined with machine learning is needed to give clinically relevant results. However, we aimed to evaluate radiomics and texture method from T2w, DWI (obtained using 12 b values in the range of 0–2000 s/mm²) and T2 mapping. This study serve as a basis for next prospective studies, which we have now clarified in the abstract and last paragraph of discussion. We fully agree with the reviewer that only one data set from one institution was used, and that the methods were not evaluated here with independent unseen data. This is mentioned as a limitation in the Discussion section, line~533. In our future studies we are planning to analyze the repeatability of texture features across different institutions, using some of them as unseen hold out set for proper validation of our models. 
+
+The external cross-validation used to measure the prediction performance 
+of our machine learning approach can be considered as an independent 
+test set in the sense that, since it consists of averaged train-test 
+splits, in which the test data is never used to select features but only 
+the training data. The feature selection can here be considered as a 
+part of the evaluated ML approach itself and therefore the CV 
+performance estimate is an unbiased estimate of the AUC of a model 
+trained with this approach over the whole population even if we test a 
+large number of features. In fact, it may happen that different features 
+end up being selected during different rounds of the outer CV but that 
+does not matter as the CV only provides an AUC estimate after which the 
+whole data is used to construct the final model.
+
+However, we agree with the reviewer that the estimate only reflects the 
+population corresponding to single institution with the same magnet and 
+imaging sequences and does not tell how well it would work under other 
+circumstances. Unfortunately, we do not currently have an access to data 
+obtained under different circumstances, so we are only able to 
+clearly state this drawback in the manuscript. The impact of current findings with cross-validation are now better clarified in last paragraph of the discussion. 
 \end{reply}
 
 
@@ -82,11 +86,13 @@ correlation with Gleason Score.
 \end{comment}
 
 \begin{reply}
-It is mentioned in the Discussion section, line~556, that adding texture
-features from T2 did not improve classifier performance.
+We agree with the reviewer that our study is very unique since we have a very diverse data set; each patient had T2w, DWI (obtained using 12 b values in the range of 0–2000 s/mm²), and T2 mapping. To the best of our knowledge, there are no studies comparing radiomics and texture features extracted from T2w, DWI (post-processed using monoexponential and kurtosis functions) and T2 mapping. In the current study, we have shown that radiomics and texture features extracted from T2 mapping provided little added value. It is stated in the Discussion section, line~556, that adding texture features from T2 did not improve classifier performance. Thus, in our on-going clinical trial trials T2 mapping is no longer being performed (ClinicalTrials.gov Identifier: NCT02545881).  
 
-The evaluation of b-values was not included in the goals of this study, as it
-can be addressed separately.
+We have not evaluated performance of different b values and their effect on radiomics and texture features extracted from DWI data fitted using monoexponential and kurtosis functions. However, in our previous studies, we have been evaluating the effect of b-value distribution on repeatability of prostate DWI in healthy volunteers (J Magn Reson Imaging. 2014 May;39(5):1213-22. PMID: 24127398) and prostate cancer patients (Magn Reson Imaging. 2015 Dec;33(10):1212-1218. PMID: 26220861).
+
+Moreover, we have evaluated the repeatability of different post-processing models/functions for prostate cancer DWI obtained using 12 b values in the range of 0–2000 s/mm² (Magn Reson Med. 2015 May;73(5):1988-98. PMID: 25046482) and we have performed simulations and repeated in-vivo measurements to find optimal b-value distribution for those models/functions (Magn Reson Med. 2015 May;73(5):1954-69. PMID: 25045885).
+
+We do agree with the reviewer that there is still need to evaluate performance of radiomics and texture methods extracted using different b-value combinations. However, this is beyond the scope of the current study. 
 \end{reply}
 
 
@@ -97,8 +103,28 @@ labels of the radiomics features are shifted.
 \end{comment}
 
 \begin{reply}
-We have now made some corrections and clarifications to the figure elements and
-captions.
+We thank the reviewer for highlight this error. We have now made some corrections and clarifications to the figure elements and captions. We have modified the figure legend as follows:
+
+``{\bf The pipeline.}
+    The T₂-weighted images (T₂w) are standardized, the monoexponential and
+    kurtosis models are fitted to the diffusion weighted images (DWI), and the
+    T₂ relaxation values are obtained using a two parameter monoexponential
+    function. Texture features are extracted subsequently. Top 1\% of the
+    features are selected by AUC\@. A logistic regression model is fitted to the
+    selected features, and is used to predict the lesion's Gleason score
+    class.''
+
+The previous version was:
+
+``{\bf The post-processing pipeline.}
+    The T₂-weighted imaging (T₂w) data set is standardized, while the
+    monoexponential and kurtosis models are applied to diffusion weighted
+    imaging (DWI) data set. The T₂ relaxation values are obtained using a two
+    parameter monoexponential function. Subsequently, the features are
+    calculated using T₂w and parametric maps. The feature selection is performed
+    by choosing 1\% of the features with highest AUC\@. Then with the selected
+    features a logistic regression model is fitted and used to predict the
+    lesion's Gleason score group.''
 \end{reply}
 
 
@@ -108,10 +134,7 @@ on the different sequences?
 \end{comment}
 
 \begin{reply}
-We have now listed the abbreviations in Figure 2. The images of different
-modalities were scanned at different resolutions and different times, so there
-cannot be expected to be any slices covering exactly same cross-sections.
-Therefore the lesions in the different slice images appear slightly different.
+We have now listed the abbreviations in Figure 2. The slice thickness varies between different modalities (T2w has 2.5~mm, DWI has 5.0~mm, T2 has 5.0~mm). Moreover, each modality has different in-plane resolution (T2w: 0.47 × 0.47~mm², DWI: 1.11 × 1.11~mm², T2: 0.45 × 0.45~mm²). Thus, the appearance of lesion masks done using whole mount prostatectomy sections is a bit different between the modalities. We are providing figures for all included masks in the supporting material.  
 \end{reply}
 
 
@@ -122,8 +145,9 @@ explain why you did use 3D volume images.
 
 \begin{reply}
 We extracted texture features from 2D slices, because the images were highly
-anisotropic (about 5⨉1⨉1 mm³). This is mentioned in section~2.5, line~185.
-Various slices from 3D images were used in order to make use of more data.
+anisotropic (T2w: 0.47 × 0.47 × 2.5~mm³, DWI: 1.11 × 1.11 × 5.0~mm³, T2: 0.45 × 0.45 × 5.0~mm³). We are stating this in section~2.5, line~185:
+
+``Three-dimensional texture extraction of MRI has been utilized in various studies, including some of PCa diagnosis [Depeursinge2014]. In this study, however, texture analysis was performed only in 2D and per-slice, due to voxel anisotropy.''
 \end{reply}
 
 
@@ -133,15 +157,12 @@ not relevant to Gleason scores. Please mention this in the paper.
 \end{comment}
 
 \begin{reply}
-We have now added the following paragraph to the Discussion section:
+We thank the review for highlight this limitation. We have  added the following paragraph to the Discussion section:
 
 ``In addition to texture features, shape descriptors might provide information
 useful for Gleason score characterization \citep{Hoeks2011}. However, we decided
-to leave them out of this study, focusing on texture features only. Including
-shape features would have required considerable amount of additional work, and
-would make it more important to treat lesions of different prostate regions
-differently.''
-
+to leave them out of this study and focus on texture features only. Including
+shape features would have required to treat lesions of different prostate regions differently, since lesions in peripheral zone might spread differently than lesions in central/transitional zone.''
 \end{reply}
 
 
@@ -150,10 +171,13 @@ Is there any correlation in imaging features between different image types?
 \end{comment}
 
 \begin{reply}
-We have now added the following paragraph to section 3.1:
+We have now evaluated the cross-correlation of the top features between different image types. The results are listed in supporting table S13. We also listed correlations between each possible pair of features among the top five features from each image type (25 features in total); see table S14. We added the following paragraph to section 3.1:
 
-``Many of the top features had high Spearman rank correlation between different
-image types, but that did not lead to similar AUC performance.''
+``Some of the top features were highly correlated between different image types.
+See Table~S13 in Supporting Material for Spearman rank correlation coefficients
+for the features listed in Tables~2 and~3, calculated across image types. In
+addition, Table~S14 contains similar correlation metrics for all feature pairs,
+where top five features were taken from each image type.''
 \end{reply}
 
 
@@ -166,9 +190,13 @@ statistical features and top 1\% features were combined.
 
 \begin{reply}
 The top 1\% were selected from all features, including statistical ones. We have
-now clarified this in section~2.6.
-\end{reply}
+now clarified this in section~2.6:
 
+``For selecting the best features, their performance was estimated using the
+receiver operating characteristic (ROC) curve, summarized as the area under the
+ROC curve (AUC). Ranked by AUC, the highest-performing 1\% of all features
+(including statistical ones) were used to train the classifier.''
+\end{reply}
 
 
 \end{letter}
